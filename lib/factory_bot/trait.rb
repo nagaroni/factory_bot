@@ -10,8 +10,7 @@ module FactoryBot
       proxy = FactoryBot::DefinitionProxy.new(@definition)
 
       if block_given?
-        evaulated_block = proxy.instance_eval(&@block)
-        ensure_trait_not_self_referencing(evaulated_block)
+        evaluated_block = proxy.instance_eval(&@block)
       end
     end
 
@@ -28,14 +27,7 @@ module FactoryBot
     end
 
     protected
-
-    def ensure_trait_not_self_referencing(evaulated_block)
-      if evaulated_block.respond_to?(:name) && evaulated_block.name.to_s == @name
-        message = "Self-referencing trait '#{@name}'"
-        raise TraitDefinitionError, message
-      end
-    end
-
+  
     attr_reader :block
   end
 end
